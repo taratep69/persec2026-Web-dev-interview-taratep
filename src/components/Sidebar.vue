@@ -36,12 +36,12 @@ const toggleSidebar = () => {
 };
 
 const menuItems = [
-  { label: 'คำถามข้อที่ 1', link: '/q1', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>' },
-  { label: 'คำถามข้อที่ 2', link: '/q2', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>' },
-  { label: 'คำถามข้อที่ 3', link: '/q3', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>' },
-  { label: 'คำถามข้อที่ 4', link: '/q4', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>' },
-  { label: 'คำถามข้อที่ 5', link: '/q5', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>' },
-  { label: 'คำถามข้อที่ 6', link: '/q6', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>' },
+  { label: 'คำถามข้อที่ 1', link: '/q1' },
+  { label: 'คำถามข้อที่ 2', link: '/q2' },
+  { label: 'คำถามข้อที่ 3', link: '/q3' },
+  { label: 'คำถามข้อที่ 4', link: '/q4' },
+  { label: 'คำถามข้อที่ 5', link: '/q5' },
+  { label: 'คำถามข้อที่ 6', link: '/q6' },
 ];
 </script>
 

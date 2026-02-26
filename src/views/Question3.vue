@@ -3,11 +3,155 @@
     <div class="content-header">
       <h2 class="content-title">คำถามข้อที่ 3</h2>
     </div>
-    <div class="blank-state">
-      <p>เนื้อหาสำหรับคำถามข้อที่ 3 จะแสดงที่นี่</p>
+
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+      <div class="flex items-start gap-4 pb-4">
+        <div>
+          <span class="text-lg text-red-500 font-bold">โจทย์ : </span>
+          <span class="mt-2 text-gray-700">
+            ให้เขียน function autocomplete โดยฟังชั่นนี้จะรับ
+          </span> 
+        </div>
+      </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-6">
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">Search Term</label>
+            <input 
+              type="text" 
+              v-model="searchTerm" 
+              placeholder="ลองพิม 'th'..."
+              class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+              @input="handleSearch"
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">Max Result</label>
+              <input 
+                type="number" 
+                v-model.number="maxResult" 
+                min="1"
+                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                @input="handleSearch"
+              />
+            </div>
+            <div class="flex items-end">
+              <button 
+                @click="showSourceCode = true"
+                class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-bold transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                View Source Code
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">Data Items (Comma separated)</label>
+            <textarea 
+              v-model="itemsInput"
+              rows="3"
+              class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all font-mono text-xs"
+              @input="handleSearch"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col">
+          <div class="mt-6 pt-6 text-center">
+            <p class="text-[10px] text-gray-400 font-bold uppercase">Raw Output:</p>
+            <code class="text-indigo-600 font-bold text-sm">{{ JSON.stringify(results) }}</code>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+    <div v-if="showSourceCode" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm transition-all overflow-y-auto">
+      <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+          <h3 class="text-xl font-bold text-gray-800">Source Code: Question 3</h3>
+          <button @click="showSourceCode = false" class="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-200 rounded-full">
+          </button>
+        </div>
+        <div class="p-6 overflow-y-auto bg-[#1e1e1e] text-gray-300 font-mono text-sm leading-relaxed whitespace-pre overflow-x-auto">
+          <code class="block" v-text="sourceCode"></code>
+        </div>
+        <div class="px-6 py-4 border-t border-gray-100 flex justify-end bg-gray-50/50">
+          <button @click="showSourceCode = false" class="px-6 py-2 bg-gray-800 text-white rounded-lg font-bold hover:bg-gray-900 transition-colors">
+            ปิดหน้าต่าง
+          </button>
+        </div>
+      </div>
     </div>
   </main>
 </template>
+
+<script setup lang="ts">
+  import { ref, onMounted } from 'vue';
+
+  const searchTerm = ref<string>('th');
+  const itemsInput = ref<string>('Mother, Think, Worthy, Apple, Android');
+  const maxResult = ref<number>(2);
+  const results = ref<string[]>([]);
+  const showSourceCode = ref<boolean>(false);
+
+  const sourceCode = `const autocomplete = (search: string, items: string[], maxResult: number): string[] => {
+    if (!searchTerm.value) {
+      results.value = [];
+      return;
+    }
+
+    const s = searchTerm.value.toLowerCase();
+    const items = itemsInput.value.split(',').map(item => item.trim()).filter(item => item !== '');
+    
+    const filtered = items.filter(item => item.toLowerCase().includes(s));
+    
+    results.value = [...filtered].sort((a, b) => {
+      const idxA = a.toLowerCase().indexOf(s);
+      const idxB = b.toLowerCase().indexOf(s);
+      if (idxA !== idxB) return idxA - idxB;
+
+    }).slice(0, maxResult.value);
+  };`;
+
+  const handleSearch = () => {
+    if (!searchTerm.value) {
+      results.value = [];
+      return;
+    }
+
+    const s = searchTerm.value.toLowerCase();
+    const items = itemsInput.value.split(',').map(item => item.trim()).filter(item => item !== '');
+    
+    const filtered = items.filter(item => item.toLowerCase().includes(s));
+    
+    results.value = [...filtered].sort((a, b) => {
+      const idxA = a.toLowerCase().indexOf(s);
+      const idxB = b.toLowerCase().indexOf(s);
+      if (idxA !== idxB) return idxA - idxB;
+
+    }).slice(0, maxResult.value);
+  };
+
+  const highlight = (text: string) => {
+    if (!searchTerm.value) return text;
+    const regex = new RegExp(`(${searchTerm.value})`, 'gi');
+    return text.replace(regex, '<span class="text-indigo-600 underline">$1</span>');
+  };
+
+  const getPositionTag = (item: string) => {
+    const s = searchTerm.value.toLowerCase();
+    const idx = item.toLowerCase().indexOf(s);
+    if (idx === 0) return 'Start';
+    if (idx + s.length === item.length) return 'End';
+    return 'Middle';
+  };
+
+  onMounted(() => {
+    handleSearch();
+  });
+</script>
 
 <style scoped>
 .content-area {
@@ -22,13 +166,5 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-main);
-}
-.blank-state {
-  background-color: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 48px;
-  text-align: center;
-  color: var(--text-muted);
-  border: 1px dashed var(--border);
 }
 </style>
