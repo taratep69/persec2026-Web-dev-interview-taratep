@@ -4,7 +4,8 @@
       <h2 class="content-title">คำถามข้อที่ 1</h2>
     </div>
     <div class="bg-white p-4 rounded-lg">
-      <span class="text-lg text-red-500 font-bold">โจทย์ : </span><span>ให้สร้าง function ที่รับข้อมูล เป็น string 1 ชุด โดยข้อมูลจะเป็นตัวอักษรดังนี้ '(', '[', '{', '}', ']', ')'
+      <span class="text-lg text-red-500 font-bold">โจทย์ : </span>
+      <span>ให้สร้าง function ที่รับข้อมูล เป็น string 1 ชุด โดยข้อมูลจะเป็นตัวอักษรดังนี้ '(', '[', '{', '}', ']', ')'
       ทํา การตรวจสอบว่า ข้อมูลที่รับมามีการเปิดปิดของสัญลักษณ์ครบคู่หรือไม่ เช่น
       ข้อมูล "()" คํา ตอบจะเป็น true เพราะมีการเปิดปิดวงเล็บครบคู่
       ข้อมูล "([{)" คํา ตอบจะเป็น false เพราะมีการเปิดปิดไม่ครบคู่</span>
@@ -58,45 +59,13 @@
   const outputData = ref<boolean | null>(null);
   const showSourceCode = ref<boolean>(false);
 
-  const sourceCode = `const submitData = (inputData: string): boolean => {
-  if (!inputData) {
-    outputData.value = null;
-    return false;
-  }
-
-  const stack: string[] = [];
-  const pairs: Record<string, string> = {
-    ')': '(',
-    ']': '[',
-    '}': '{'
-  };
-
-  let isValid = true;
-  for (const char of inputData) {
-    if (pairs[char]) {
-      if (stack.pop() !== pairs[char]) {
-        isValid = false; 
-        break;
-      }
-    } else {
-      stack.push(char);
-    }
-  }
-
-  if (stack.length !== 0) {
-    isValid = false;
-  }
-
-  outputData.value = isValid;
-  return isValid;
-}`;
-
+  const sourceCode = `
   const submitData = (inputData: string): boolean => {
     if (!inputData) {
-      outputData.value = null;
       return false;
     }
-
+    const inputDatas = inputData.replace(/["',\sa-zA-Z0-9]/g, '').trim();
+    console.log(inputDatas);
     const stack: string[] = [];
     const pairs: Record<string, string> = {
       ')': '(',
@@ -105,7 +74,41 @@
     };
 
     let isValid = true;
-    for (const char of inputData) {
+    for (const char of inputDatas) {
+      if (pairs[char]) {
+        if (stack.pop() !== pairs[char]) {
+          isValid = false; 
+          break;
+        }
+      } else {
+        stack.push(char);
+      }
+    }
+
+    if (stack.length !== 0) {
+      isValid = false;
+    }
+
+    outputData.value = isValid;
+    return isValid;
+  }
+  `;
+
+  const submitData = (inputData: string): boolean => {
+    if (!inputData) {
+      return false;
+    }
+    const inputDatas = inputData.replace(/["',\sa-zA-Z0-9]/g, '').trim();
+    console.log(inputDatas);
+    const stack: string[] = [];
+    const pairs: Record<string, string> = {
+      ')': '(',
+      ']': '[',
+      '}': '{'
+    };
+
+    let isValid = true;
+    for (const char of inputDatas) {
       if (pairs[char]) {
         if (stack.pop() !== pairs[char]) {
           isValid = false; 

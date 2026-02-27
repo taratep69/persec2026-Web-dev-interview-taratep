@@ -8,10 +8,8 @@
       <div class="flex items-start gap-4 pb-4">
         <div>
           <span class="text-lg text-red-500 font-bold">โจทย์ : </span>
-          <span class="mt-2 text-gray-700">
-            ให้เขียน function รับค่า array string และ return ผลลัพธ์ที่เรียงแล้วออกมา โดยการเรียงจะดูจากในตัวอย่างเป็นหลัก
-            ["TH19", "SG20", "TH2"] => ["SG20", "TH2", "TH19"]
-            ["TH10", "TH3Netflix", "TH1", "TH7"] => ["TH1", "TH3Netflix", "TH7", "TH10"]
+          <span class="mt-2 text-gray-700 block whitespace-pre-line">
+            Modern Roman Numerals เป็นรูปแบบการนับเลขแบบนึง โดยจะเริ่มต้นที่ 1 และนับจากทางซ้ายสุด ไม่นับเลข 0 และมีรูปแบบ CM => 900 (อันนี้เป็นกฎพื้นฐานเลขโรมัน เช่น IV = 4, IX = 9) รายละเอียดเพิ่มเติมอ่านได้จากลิงก์ wiki ด้านบน
           </span> 
         </div>
       </div>
@@ -127,7 +125,7 @@
     for (let i = 0; i < input.length; i++) {
       const current = romanValues[input[i]];
       const next = romanValues[input[i + 1]];
-      console.log(current, next);
+      // console.log(current, next);
 
       if (next > current) {
         total += (next - current);

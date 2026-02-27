@@ -8,8 +8,16 @@
       <div class="flex items-start gap-4 pb-4">
         <div>
           <span class="text-lg text-red-500 font-bold">โจทย์ : </span>
-          <span class="mt-2 text-gray-700">
-            ให้เขียน function autocomplete โดยฟังชั่นนี้จะรับ
+          <span class="mt-2 text-gray-700 block whitespace-pre-line">
+            ให้เขียน function autocomplete โดยฟังชั่นนี้จะรับ parameter 3 ตัวดังนี้
+            a. search เป็น string โดยเป็นคำที่จะใช้ในการค้นหา
+            b. items เป็น array string ของคำที่จะใช้ในการแนะนำ
+            c. maxResult เป็นค่าจำนวนผลลัพธ์มากที่สุดที่อยากได้
+            โดยการค้นหาให้นำ search ไปค้นหาใน items โดย ignore case
+            ผลลัพธ์ที่ต้องการคือคำใน items ที่มี search เป็นส่วนหนึ่งของข้อความ โดยให้เรียงลำดับผลลัพธ์ตามนี้
+            • กรณีค่านั้นๆ ขึ้นต้นให้อยู่ลำดับแรกๆ ของผลลัพธ์เช่น search = th ข้อความใน items ที่ขึ้นต้นด้วย th ควรจะอยู่ลำดับแรกๆ ของผลลัพธ์
+            • กรณีค่า search อยู่ระหว่างกลางของคำ
+            • กรณีค่า search อยู่ท้ายของคำ
           </span> 
         </div>
       </div>
@@ -22,7 +30,7 @@
               v-model="searchTerm" 
               placeholder="ลองพิม 'th'..."
               class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-              @input="handleSearch"
+              @input="usePreset"
             />
           </div>
 
@@ -34,7 +42,7 @@
                 v-model.number="maxResult" 
                 min="1"
                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-                @input="handleSearch"
+                @input="usePreset"
               />
             </div>
             <div class="flex items-end">
@@ -53,7 +61,7 @@
               v-model="itemsInput"
               rows="3"
               class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all font-mono text-xs"
-              @input="handleSearch"
+              @input="usePreset"
             ></textarea>
           </div>
         </div>
@@ -96,60 +104,42 @@
   const results = ref<string[]>([]);
   const showSourceCode = ref<boolean>(false);
 
-  const sourceCode = `const autocomplete = (search: string, items: string[], maxResult: number): string[] => {
-    if (!searchTerm.value) {
-      results.value = [];
-      return;
-    }
-
-    const s = searchTerm.value.toLowerCase();
-    const items = itemsInput.value.split(',').map(item => item.trim()).filter(item => item !== '');
+  const sourceCode = `
+  const autocomplete = (search: string, itemsRaw: string, maxRes: number): string[] => {
+    const s = search.toLowerCase();
+    const items = itemsRaw.split(',').map(item => item.trim()).filter(item => item !== '');
     
     const filtered = items.filter(item => item.toLowerCase().includes(s));
     
-    results.value = [...filtered].sort((a, b) => {
+    return [...filtered].sort((a, b) => {
       const idxA = a.toLowerCase().indexOf(s);
       const idxB = b.toLowerCase().indexOf(s);
       if (idxA !== idxB) return idxA - idxB;
+      return a.localeCompare(b);
+    }).slice(0, maxRes);
+  };
+  `;
 
-    }).slice(0, maxResult.value);
-  };`;
-
-  const handleSearch = () => {
-    if (!searchTerm.value) {
-      results.value = [];
-      return;
-    }
-
-    const s = searchTerm.value.toLowerCase();
-    const items = itemsInput.value.split(',').map(item => item.trim()).filter(item => item !== '');
+  const autocomplete = (search: string, itemsRaw: string, maxRes: number): string[] => {
+    const s = search.toLowerCase();
+    const items = itemsRaw.split(',').map(item => item.trim()).filter(item => item !== '');
     
     const filtered = items.filter(item => item.toLowerCase().includes(s));
     
-    results.value = [...filtered].sort((a, b) => {
+    return [...filtered].sort((a, b) => {
       const idxA = a.toLowerCase().indexOf(s);
       const idxB = b.toLowerCase().indexOf(s);
       if (idxA !== idxB) return idxA - idxB;
-
-    }).slice(0, maxResult.value);
+      return a.localeCompare(b);
+    }).slice(0, maxRes);
   };
 
-  const highlight = (text: string) => {
-    if (!searchTerm.value) return text;
-    const regex = new RegExp(`(${searchTerm.value})`, 'gi');
-    return text.replace(regex, '<span class="text-indigo-600 underline">$1</span>');
-  };
-
-  const getPositionTag = (item: string) => {
-    const s = searchTerm.value.toLowerCase();
-    const idx = item.toLowerCase().indexOf(s);
-    if (idx === 0) return 'Start';
-    if (idx + s.length === item.length) return 'End';
-    return 'Middle';
+  const usePreset = () => {
+    results.value = autocomplete(searchTerm.value, itemsInput.value, maxResult.value);
   };
 
   onMounted(() => {
-    handleSearch();
+    usePreset();
   });
 </script>
 

@@ -20,12 +20,12 @@
               v-model="inputString" 
               placeholder='เช่น TH19, SG20, TH2'
               class="w-full sm:w-[400px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow text-gray-800"
-              @keyup.enter="handleSort"
+              @keyup.enter="sortedOutput = handleSort(inputString)"
             />
           </div>
           <div class="flex gap-2 self-end mb-1">
             <button 
-              @click="handleSort"
+              @click="sortedOutput = handleSort(inputString)"
               class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md font-bold transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               เรียงลำดับ
@@ -99,13 +99,13 @@
 
   const usePreset = (preset: string[]) => {
     inputString.value = preset.join(', ');
-    handleSort();
+    sortedOutput.value = handleSort(inputString.value);
   };
 
-  const handleSort = () => {
-    const raw = inputString.value.replace(/[\[\]]/g, '');
+  const handleSort = (input: string): string[] => {
+    const raw = input.replace(/[\[\]]/g, '');
     const arr = raw.split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
-    sortedOutput.value = [...arr].sort((a, b) => 
+    return [...arr].sort((a, b) => 
       a.localeCompare(b, undefined, { numeric: true })
     );
   };

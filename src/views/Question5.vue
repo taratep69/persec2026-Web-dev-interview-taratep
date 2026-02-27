@@ -8,10 +8,12 @@
       <div class="flex items-start gap-4">
         <div>
           <span class="text-lg text-red-500 font-bold">โจทย์ : </span>
-          <span class="mt-2 text-gray-700">
-            ให้เขียน function รับค่า array string และ return ผลลัพธ์ที่เรียงแล้วออกมา โดยการเรียงจะดูจากในตัวอย่างเป็นหลัก
-            ["TH19", "SG20", "TH2"] => ["SG20", "TH2", "TH19"]
-            ["TH10", "TH3Netflix", "TH1", "TH7"] => ["TH1", "TH3Netflix", "TH7", "TH10"]
+          <span class="mt-2 text-gray-700 block whitespace-pre-line">
+            ให้เขียน function ที่รับค่าเป็น Positive Int จากนั้นทำการเรียงลำดับจากมากไปน้อยและ return กลับออกมาเป็น Int ตัวอย่างเช่น
+            3008 => 8300
+            1989 => 9981
+            2679 => 9762
+            9163 => 9631
           </span> 
         </div>
       </div>
