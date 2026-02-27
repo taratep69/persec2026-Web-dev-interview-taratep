@@ -61,11 +61,11 @@
 
   const sourceCode = `
   const submitData = (inputData: string): boolean => {
-    if (!inputData) {
+    const inputDatas = inputData.replace(/["',\sa-zA-Z0-9]/g, '').trim();
+    if (!inputDatas) {
+      outputData.value = false;
       return false;
     }
-    const inputDatas = inputData.replace(/["',\sa-zA-Z0-9]/g, '').trim();
-    console.log(inputDatas);
     const stack: string[] = [];
     const pairs: Record<string, string> = {
       ')': '(',
@@ -95,11 +95,11 @@
   `;
 
   const submitData = (inputData: string): boolean => {
-    if (!inputData) {
+    const inputDatas = inputData.replace(/["',\sa-zA-Z0-9]/g, '').trim();
+    if (!inputDatas) {
+      outputData.value = false;
       return false;
     }
-    const inputDatas = inputData.replace(/["',\sa-zA-Z0-9]/g, '').trim();
-    console.log(inputDatas);
     const stack: string[] = [];
     const pairs: Record<string, string> = {
       ')': '(',
