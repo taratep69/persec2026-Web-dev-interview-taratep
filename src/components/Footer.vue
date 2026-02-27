@@ -1,12 +1,6 @@
 <template>
   <footer class="footer">
     <div class="footer-content">
-      <p>&copy; 2026 Pre-Interview System. Made for Web Dev Interview.</p>
-      <div class="footer-links">
-        <a href="#">นโยบายความเป็นส่วนตัว</a>
-        <a href="#">ข้อกำหนดการใช้งาน</a>
-        <a href="#">ติดต่อเรา</a>
-      </div>
     </div>
   </footer>
 </template>
