@@ -1,7 +1,7 @@
 <template>
   <header class="header glass">
     <div class="header-left">
-      <h1 class="page-title">คำถามสัมภาษณ์งาน (Pre-Interview System)</h1>
+      <h1 class="page-title">(Logic Test System)</h1>
     </div>
   </header>
 </template>

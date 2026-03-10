@@ -4,7 +4,7 @@
       <div class="logo-box">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
       </div>
-      <span class="logo-text" v-if="!isCollapsed">Interview System</span>
+      <span class="logo-text" v-if="!isCollapsed">Logic Test System</span>
       <button class="toggle-btn" @click="toggleSidebar">
         <svg v-if="!isCollapsed" viewBox="0 0 24 24" fill="none" class="toggle-icon"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <svg v-else viewBox="0 0 24 24" fill="none" class="toggle-icon"><path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
